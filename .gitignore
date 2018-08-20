@@ -1,0 +1,11 @@
+*.wav
+/fft_chart
+*.avi
+*.mp4
+output.txt
+test.dat
+.idea
+*.iml
+.DS_Store
+/viz
+/vendor

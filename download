@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+exit_err() {
+    echo ${@} >&2
+    exit 1
+}
+
+if [ -z ${1} ]; then
+    exit_err "you must supply a filename (first arg)"
+fi;
+
+if [ -z ${2} ]; then
+    exit_err "you must supply a url (second arg)"
+fi;
+
+youtube-dl --audio-format wav -x -o ${1}.mp4 ${2}

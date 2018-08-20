@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+exit_err() {
+    echo ${@} >&2
+    exit 1
+}
+
+echo_cmd() {
+    echo [+] ${@}
+    eval "${@}"
+}
+
+if [ -z ${1} ]; then
+    exit_err "you must supply a url (first arg)"
+fi;
+
+TMP_DIR=$(mktemp -d)
+
+cleanup() {
+    echo_cmd rm -rf ${TMP_DIR};
+}
+
+if ! echo_cmd youtube-dl --audio-format wav -x -o ${TMP_DIR}/song.mp4 ${1}; then
+    cleanup
+    exit_err "failed to download!"
+fi;
+
+trap 'cleanup' INT QUIT KILL;
+echo_cmd ./viz ${TMP_DIR}/song.wav && cleanup
